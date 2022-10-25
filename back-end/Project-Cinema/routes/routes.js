@@ -9,4 +9,5 @@ route.get("/migration",Controllers.migrations)
 route.get('/Movies', TicketController.GetMovies);
 route.get("/movie/:id/:hour",MovieController.GetMovieRooms);
 route.post("/insertTicket",TicketController.CreateTicket)
+route.get("/tips",TicketController.TipsRooms);
 module.exports = route;

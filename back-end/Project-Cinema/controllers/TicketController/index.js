@@ -2,6 +2,7 @@ const MovieTable = require("../../models/MovieTable");
 const RoomTable = require("../../models/RoomTable");
 const Controller = require("../../controllers/Controller");
 const TicketTable = require("../../models/TicketTable");
+const sequelize = require("sequelize");
 class TicketController {
   static async GetMovies(req, res) {
     await Controller.RelationshipRoomMovieTables();
@@ -42,14 +43,13 @@ class TicketController {
 
       if (Movie) {
         const Tickets = await Movie.Ticket;
-        const newValue = (await Tickets) - 1;
-
+        const newValue = await Tickets - 1;
         await MovieTable.update(
           { Ticket: newValue },
           {
             where: {
-              id: Movie.id,
-              Hour: "18:00",
+              id:Movie.id,
+              Hour: Hour,
             },
             limit: 1,
           }
@@ -59,6 +59,25 @@ class TicketController {
     } catch (ex) {
       console.log(ex.message);
     }
+  }
+  static async TipsRooms(req,res){
+    const DataMovies = await MovieTable.findAll({
+      attributes: [[sequelize.fn('count', sequelize.col('id')), 'values']],
+      raw: true,
+    });
+
+    for(var i=1;i<=DataMovies[0].values;i++){
+      
+      const Tickets = await TicketTable.findAll({
+          attributes: [[sequelize.fn('sum', sequelize.col('ticket')), 'Ingressos']],
+          raw: true,
+          where:{
+              movieId:i
+              }
+      })
+      console.log(Tickets)
+    }
+    
   }
 }
 module.exports = TicketController;
