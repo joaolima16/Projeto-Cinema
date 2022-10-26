@@ -65,7 +65,7 @@ class TicketController {
       attributes: [[sequelize.fn('count', sequelize.col('id')), 'values']],
       raw: true,
     });
-
+    var arr = [{}];
     for(var i=1;i<=DataMovies[0].values;i++){
       
       const Tickets = await TicketTable.findAll({
@@ -75,9 +75,10 @@ class TicketController {
               movieId:i
               }
       })
-      console.log(Tickets)
+    arr.push({salas:Tickets[0].Ingressos * 30})
     }
-    
+    res.json(arr)
   }
+ 
 }
 module.exports = TicketController;

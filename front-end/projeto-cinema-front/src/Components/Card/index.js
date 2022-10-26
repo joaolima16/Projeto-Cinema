@@ -98,6 +98,7 @@ export default function CardWrapper() {
                   <div className="Card">
                     <p className="roomTitle">Sala: {index?.room?.nRoom}</p>
                     <p className="subtitle"> Filme: {index?.Name}</p>
+                    <p className="subtitle">Sessão: {index?.Hour}</p>
                     <p className="subtitle">
                       Ingressos disponíveis: {index?.Ticket}
                     </p>
